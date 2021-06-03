@@ -1,4 +1,17 @@
 import random
+
+class GraphNode:
+    def __init__(self, key):
+        self.key = key
+        self.children = []
+
+    def __str__(self):
+        return str({
+            'key': self.key,
+            'children': str([c.key for c in self.children])
+        })
+
+
 class TreeNode:
 
     def __init__(self, key):
