@@ -1,16 +1,48 @@
 import random
+import networkx as nx
+import matplotlib
+import matplotlib.pyplot as plt
 
 class GraphNode:
     def __init__(self, key):
         self.key = key
+        self.parents = []
         self.children = []
+        self.visited = False
 
     def __str__(self):
         return str({
             'key': self.key,
-            'children': str([c.key for c in self.children])
+            'children': str([c.key for c in self.children]),
+            'parents' : str([c.key for c in self.parents]),
+            'visited': self.visited
         })
 
+    def add_child(self, node):
+        self.children.append(node)
+        node.parents.append(self)
+    
+    def remove_child(self, node):
+        node.parents.remove(self)
+        self.children.remove(node)
+        
+
+    @staticmethod
+    def plot_graph(adj):
+        G = nx.DiGraph(adj)
+        nx.draw_networkx(G)
+        plt.show()  
+
+    @staticmethod
+    def dict_to_graph(d):
+        nodes = {}
+        for key in d.keys():
+            nodes[key] = GraphNode(key)
+        
+        for key in d.keys():
+            for n in d[key]:
+                nodes[key].children.append(nodes[n])
+        return list(nodes.values())[0]
 
 class TreeNode:
 
