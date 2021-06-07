@@ -76,6 +76,24 @@ class TreeNode:
                 self.left.insert(key)
             self.left.parent = self
 
+    def add_left(self, key):
+        self.left = TreeNode(key)
+        self.left.parent = self
+        return self.left
+
+    def add_right(self, key):
+        self.right = TreeNode(key)
+        self.right.parent = self
+        return self.right
+
+    @staticmethod
+    def bst_from_list(arr):
+        tree = None
+        for key in arr:
+            if tree == None: tree = TreeNode(key)
+            tree.insert(key)
+        return tree
+
     @staticmethod
     def get_random_node(root, maxsteps = 10):
         curr = root
@@ -99,11 +117,11 @@ class TreeNode:
             value = random.randint(min, max)
             if insert_left: 
                 if node.left != None: node = node.left
-                node.left = TreeNode(value)
+                node.add_left(value)
                 if node.right != None: node = node.left
             else:
                 if node.right != None: node = node.right
-                node.right = TreeNode(value)
+                node.add_right(value)
                 if node.left != None: node = node.right
         return root
 
